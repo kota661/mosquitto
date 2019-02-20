@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mosquitto-basic
+  labels:
+    app: mqtt
+    env: tls-off
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mqtt
+        env: tls-off
+    spec:
+      containers:
+        - image: eclipse-mosquitto:latest
+          name: mosquitto-basic
+          ports:
+            - containerPort: 1883
+            - containerPort: 9001
+      #      - containerPort: 8883
+      #     volumeMounts:
+      #       - name: mosquitto-data
+      #         mountPath: /mosquitto/data
+      # volumes:
+      #   - name: mosquitto-data
+      #     persistentVolumeClaim:
+      #       claimName: mosquitto-data-claim

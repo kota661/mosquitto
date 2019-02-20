@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mosquitto-tls
+  labels:
+    app: mqtt
+    env: tls-on
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mqtt
+        env: tls-on
+    spec:
+      containers:
+        - image: eclipse-mosquitto:latest
+          name: mosquitto-tls
+          ports:
+            - containerPort: 1883
+            - containerPort: 9001
+            - containerPort: 8883 #TLS
+          volumeMounts:
+            - name: mosquitto-certifications
+              mountPath: /etc/mosquitto/certs/
+              readOnly: true
+            - name: mosquitto-conf
+              mountPath: /mosquitto/config
+      #       - name: mosquitto-data
+      #         mountPath: /mosquitto/data
+      volumes:
+        - name: mosquitto-certifications
+          secret:
+            secretName: mosquitto-certifications
+        - name: mosquitto-conf
+          configMap:
+            name: mosquitto-conf
+      # - name: mosquitto-data
+      #   persistentVolumeClaim:
+      #     claimName: mosquitto-data-claim

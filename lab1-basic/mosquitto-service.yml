@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mosquitto-basic
+  labels:
+    app: mqtt
+    env: tls-off
+spec:
+  selector:
+    app: mqtt
+    env: tls-off
+  type: LoadBalancer
+  ports:
+    - port: 1883
+      targetPort: 1883
+  # loadBalancerSourceRanges:
+  #  - 127.0.0.1/32

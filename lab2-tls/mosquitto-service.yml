@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mosquitto-tls
+  labels:
+    app: mqtt
+    env: tls-on
+spec:
+  selector:
+    app: mqtt
+    env: tls-on
+  type: LoadBalancer
+  ports:
+    - port: 8883
+      targetPort: 8883
+  # loadBalancerSourceRanges:
+  #  - 127.0.0.1/32
